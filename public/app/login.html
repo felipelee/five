@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
+
+    <title>highfive firebase upload sample</title>
+
+
+    <style media="screen">
+body{
+display: flex;
+min-height: 100vh;
+width: 100%;
+padding:0;
+margin: 0;
+align-items:center;
+justify-content:center;
+flex-direction: column;
+}
+#uploader{
+  -webkit-appearance: none;
+  appearance: none;
+  width:50%;
+  margin-bottom: 10px;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: 55;
+}
+
+    </style>
+  </head>
+  <body>
+    <h1>highfive firebase upload sample</h1>
+
+
+
+<progress value="0" max="100" id="uploader">0%</progress>
+
+<div class="p-5">
+  <div class="upload-btn-wrapper w-full">
+    <button type="button" class="w-full items-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150 mb-3">
+      Record Response
+    </button>
+    <input type="file" accept="video/*" capture="camera" id="fileButton" >
+
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+
+
+<!--sdks-->
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyA6FDP3ilfzn1rbGC0huoP0jyyNEOQx7uI",
+    authDomain: "highfive-2f8f6.firebaseapp.com",
+    databaseURL: "https://highfive-2f8f6.firebaseio.com",
+    projectId: "highfive-2f8f6",
+    storageBucket: "highfive-2f8f6.appspot.com",
+    messagingSenderId: "489520943186",
+    appId: "1:489520943186:web:7fd387b7d2ba5548fecf8b"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+ var storage = firebase.storage();
+
+  // Get elements
+  var uploader = document.getElementById('uploader');
+  var fileButton = document.getElementById('fileButton');
+
+
+  //Listen for fire selection
+  fileButton.addEventListener('change', function(e) {
+    //get fileButton
+    var file = e.target.files[0];
+
+    //create storage href
+    var storageRef = firebase.storage().ref('video/' + file.name);
+
+    //upload file
+    var task = storageRef.put(file);
+
+
+    //update progress bar
+    task.on('state_changed',
+
+    function progress(snapshot) {
+      var percentage = (snapshot.bytesTransferred /
+        snapshot.totalBytes) * 100;
+      uploader.value = percentage;
+    },
+
+    function error(err){
+
+    },
+
+    function complete() {
+
+    }
+
+  );
+
+  });
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

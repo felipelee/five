@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
+
+  <style>
+    body {
+margin: 0;
+padding: 0;
+}
+
+#video_container {
+width: 100%;
+height: 100%;
+overflow: hidden;
+position: relative;
+z-index: 1;
+opacity: 1;
+}
+
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: 55;
+}
+
+.questionOver{
+  position: absolute;
+      bottom: 0px;
+      z-index: 5;
+      width: 100%;
+      background: rgb(0,0,0);
+      background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 81%);
+      padding-top: 150px;
+}
+.hover\:bg-indigo-500:hover {
+    background-color: #cd3d29 !important;
+}
+.bg-indigo-600 {
+    background-color: #f45d48 !important;
+}
+.progress{
+  display: none;
+}
+</style>
+
+  <!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+
+  <div class="questionOver p-5">
+    <progress value="0" max="100" id="uploader" class="progress">0%</progress>
+
+    <h1 class="text-3xl text-center mb-4 font-bold leading-7 text-white sm:text-3xl sm:leading-9 sm:truncate">
+      That's great - Would you mind sharing why you like working at Disney?
+    </h1>
+
+    <div class="upload-btn-wrapper w-full">
+      <button type="button" class="w-full items-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150 mb-3">
+        Record Response
+      </button>
+      <input type="file" accept="video/*" capture="camera" id="fileButton">
+    </div>
+  </div>
+
+  <div id="video_container">
+    <div id="wistia_hi4m4rjcde"></div>
+  </div>
+
+
+  <!--wistia video player scripts-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script charset='ISO-8859-1' src='https://fast.wistia.com/assets/external/E-v1.js'></script>
+  <script charset='ISO-8859-1' src='https://fast.wistia.com/labs/crop-fill/plugin.js'></script>
+
+  <script type="text/javascript">
+    var fullScreenVideo = {
+      wistiaVideoID: 'hi4m4rjcde',
+      embedVideo: function() {
+        var videoOptions = {};
+        Wistia.obj.merge(videoOptions, {
+          plugin: {
+            cropFill: {
+              src: "//fast.wistia.com/labs/crop-fill/plugin.js"
+            }
+          }
+        });
+        wistiaEmbed = Wistia.embed(this.wistiaVideoID, videoOptions);
+      },
+      fixTextPosition: function() {
+        var width = $(window).width();
+        var height = $(window).height();
+        $("#video_container").css("width", width).css("height", height);
+      }
+    };
+
+    $(document).ready(function() {
+      fullScreenVideo.fixTextPosition();
+    });
+
+    $(window).resize(fullScreenVideo.fixTextPosition);
+
+    fullScreenVideo.embedVideo();
+  </script>
+
+  <script>
+    window._wq = window._wq || [];
+    _wq.push({
+      id: "hi4m4rjcde",
+      options: {
+        volumeControl: false,
+        videoFoam: true,
+        settingsControl: false,
+        videoThumbnail: true,
+        smallPlayButton: false,
+        preload: true,
+        silentAutoPlay: true,
+        playbar: false,
+        playButton: true,
+        playsinline: true,
+        playerColor: "#f45d48",
+        plugin: {
+          "requireEmail-v1": {
+            lowerText: "Thanks in advance!"
+          }
+        }
+      }
+    });
+  </script>
+
+
+  <!--firebase scripts-->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+
+
+  <!--sdks-->
+  <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+<!--wistia jquery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!--axios-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA6FDP3ilfzn1rbGC0huoP0jyyNEOQx7uI",
+      authDomain: "highfive-2f8f6.firebaseapp.com",
+      databaseURL: "https://highfive-2f8f6.firebaseio.com",
+      projectId: "highfive-2f8f6",
+      storageBucket: "highfive-2f8f6.appspot.com",
+      messagingSenderId: "489520943186",
+      appId: "1:489520943186:web:7fd387b7d2ba5548fecf8b"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var storage = firebase.storage();
+
+    // Get elements
+    var uploader = document.getElementById('uploader');
+    var fileButton = document.getElementById('fileButton');
+
+
+    //Listen for fire selection
+    fileButton.addEventListener('change', function(e) {
+      //get fileButton
+      var file = e.target.files[0];
+
+      //create storage href
+      var storageRef = firebase.storage().ref('video/' + file.name);
+      storageRef.getDownloadURL().then(responseUrl =>{
+        console.log(responseUrl)
+
+//wistia
+var access_token = "13c459ea186e284decca986f7b77ebb52d8ccbf1d4c34f3ec78a3dcaf5d658a8";
+var wistiaUrl = "";
+var requestData = jQuery.param({
+access_token: access_token,
+url: responseUrl
+});
+console.log(requestData)
+        $.ajax({
+    type:'POST',
+    url: 'https://upload.wistia.com',
+    data: requestData,
+    contentType: 'application/x-www-form-urlencoded',
+    cache: false,
+    processData: false,
+    success:function(data) {
+      console.log(data);
+      alert('Success!');
+
+    },
+    error: function(data) {
+      console.log(data);
+      console.log(requestData)
+      alert('Error');
+    }
+  });
+
+      })
+      //upload file
+      var task = storageRef.put(file);
+console.log(task);
+
+
+
+
+
+      //update progress bar
+      task.on('state_changed',
+
+        function progress(snapshot) {
+          var percentage = (snapshot.bytesTransferred /
+            snapshot.totalBytes) * 100;
+          uploader.value = percentage;
+        },
+
+        function error(err) {
+
+        },
+
+        function complete() {
+
+        }
+
+      );
+
+    });
+  </script>
+
+
+</body>
+
+</html>

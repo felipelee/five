@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
+
+  <style>
+    body {
+margin: 0;
+padding: 0;
+}
+
+#video_container {
+width: 100%;
+height: 100%;
+overflow: hidden;
+position: relative;
+z-index: 1;
+opacity: 1;
+}
+
+.questionOver{
+  position: absolute;
+      bottom: 0px;
+      z-index: 5;
+      width: 100%;
+      background: rgb(0,0,0);
+      background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 81%);
+      padding-top: 150px;
+}
+.hover\:bg-indigo-500:hover {
+    background-color: #cd3d29 !important;
+}
+.bg-indigo-600 {
+    background-color: #f45d48 !important;
+}
+</style>
+
+  <!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+
+
+
+<div class="questionOver p-5">
+  <h1 class="text-3xl text-center mb-4 font-bold leading-7 text-white sm:text-3xl sm:leading-9 sm:truncate">
+    Would you reccommed working at Disney to a friend?
+  </h1>
+
+  <a href="response.html">
+    <span class="shadow-sm rounded-md">
+      <button type="button" class="w-full items-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150 mb-3">
+        Yes
+      </button>
+    </span>
+  </a>
+  <span class="shadow-sm rounded-md">
+    <button type="button" class="w-full items-center px-6 py-3 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 ">
+      No
+    </button>
+  </span>
+
+</div>
+
+  <div id="video_container">
+    <div id="wistia_hi4m4rjcde"></div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script charset='ISO-8859-1' src='https://fast.wistia.com/assets/external/E-v1.js'></script>
+  <script charset='ISO-8859-1' src='https://fast.wistia.com/labs/crop-fill/plugin.js'></script>
+
+  <script type="text/javascript">
+    var fullScreenVideo = {
+      wistiaVideoID: 'hi4m4rjcde',
+      embedVideo: function() {
+        var videoOptions = {};
+        Wistia.obj.merge(videoOptions, {
+          plugin: {
+            cropFill: {
+              src: "//fast.wistia.com/labs/crop-fill/plugin.js"
+            }
+          }
+        });
+        wistiaEmbed = Wistia.embed(this.wistiaVideoID, videoOptions);
+      },
+      fixTextPosition: function() {
+        var width = $(window).width();
+        var height = $(window).height();
+        $("#video_container").css("width", width).css("height", height);
+      }
+    };
+
+    $(document).ready(function() {
+      fullScreenVideo.fixTextPosition();
+    });
+
+    $(window).resize(fullScreenVideo.fixTextPosition);
+
+    fullScreenVideo.embedVideo();
+  </script>
+
+  <script>
+    window._wq = window._wq || [];
+    _wq.push({
+      id: "hi4m4rjcde",
+      options: {
+        volumeControl: false,
+        videoFoam: true,
+        settingsControl: false,
+        videoThumbnail: true,
+        smallPlayButton: false,
+        preload: true,
+        silentAutoPlay: true,
+        playbar: false,
+        playButton: true,
+        playsinline: true,
+        playerColor: "#f45d48",
+        plugin: {
+          "requireEmail-v1": {
+            lowerText: "Thanks in advance!"
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
